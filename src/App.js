@@ -22,6 +22,7 @@ function App() {
   const [state,setState] = useState('Kolkata');
   const [data,setData] = useState();
   const [load,setLoad] = useState();
+  const [err,setErr] = useState();
     
 
   const handleOnClick = async()=>{
@@ -37,8 +38,13 @@ function App() {
 
     const fetchData =async()=>{
           setLoad(true);
+          setErr(false)
           const data = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=d949a3919f3747ee9e845526240704&q=${state}&days=6&aqi=yes&alerts=no`);
           const fmt_data = await data.json();
+          if(fmt_data.error?.code == 1006)
+          {
+              setErr(true);
+          }
           console.log (fmt_data);
           setData(fmt_data);
           // var {location} = fmt_data;
@@ -49,7 +55,7 @@ function App() {
     fetchData();
   },[state])
   {
-    if(load){
+  if(load){
     return(
       <div style={{display:'flex', justifyContent:'center'}}>
         <h1>Loading.....</h1>
@@ -58,22 +64,33 @@ function App() {
   }
   else
   {
-    return (
-      <>
-      <div style={{width:'auto', height:'auto', display:'flex', justifyContent:'center', backgroundColor:'#ededed'}}>
-        <Box style={{display:'flex', justifyContent:'center'}}>
-              <Stack spacing={1} direction="row" useFlexGap flexWrap="wrap">
-              <Left func = {handleOnClick} data ={data}/>
-              <Stack spacing={10} direction="column" useFlexGap flexWrap="wrap" style={{marginTop:'30px'}}>
-              <RightTop data = {data}/>
-              <RightBelow q ={data}/>
-              </Stack>
-              </Stack>
-        </Box> 
-      </div>  
-      </>
-    );
-  }
+    if(err)
+    {
+      return(
+        <div style={{display:'flex', justifyContent:'center'}}>
+            <h4>Data not found</h4>
+        </div>
+      );
+    }
+    else
+    {
+      return (
+        <>
+        <div style={{width:'auto', height:'auto', display:'flex', justifyContent:'center', backgroundColor:'#ededed'}}>
+          <Box style={{display:'flex', justifyContent:'center'}}>
+                <Stack spacing={1} direction="row" useFlexGap flexWrap="wrap">
+                <Left func = {handleOnClick} data ={data}/>
+                <Stack spacing={10} direction="column" useFlexGap flexWrap="wrap" style={{marginTop:'30px'}}>
+                <RightTop data = {data}/>
+                <RightBelow q ={data}/>
+                </Stack>
+                </Stack>
+          </Box> 
+        </div>  
+        </>
+      );
+    }
+}
 }
 }
 

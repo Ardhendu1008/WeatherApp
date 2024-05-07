@@ -1,5 +1,5 @@
 import './App.css';
-import {useState,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Left from './component/Left';
 import RightTop from './component/RightTop';
 import RightBelow from './component/RightBelow';
@@ -19,79 +19,72 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function App() {
 
-  const [state,setState] = useState('Kolkata');
-  const [data,setData] = useState();
-  const [load,setLoad] = useState();
-  const [err,setErr] = useState();
-    
+  const [state, setState] = useState('Kolkata');
+  const [data, setData] = useState();
+  const [load, setLoad] = useState(true);
+  const [err, setErr] = useState();
 
-  const handleOnClick = async()=>{
+
+  const handleOnClick = async () => {
     var txt = document.querySelector('#standard-basic').value;
-    if(txt!="" && txt!=state)
-    {
+    if (txt != "" && txt != state) {
       setState(txt);
       console.log(txt);
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    const fetchData =async()=>{
-          setLoad(true);
-          setErr(false)
-          const data = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=d949a3919f3747ee9e845526240704&q=${state}&days=6&aqi=yes&alerts=no`);
-          const fmt_data = await data.json();
-          if(fmt_data.error?.code == 1006)
-          {
-              setErr(true);
-          }
-          console.log (fmt_data);
-          setData(fmt_data);
-          // var {location} = fmt_data;
-          // console.log(location.lat);
-          setLoad(false);
+    const fetchData = async () => {
+      setLoad(true);
+      setErr(false)
+      const data = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=d949a3919f3747ee9e845526240704&q=${state}&days=6&aqi=yes&alerts=no`);
+      const fmt_data = await data.json();
+      if (fmt_data.error?.code == 1006) {
+        setErr(true);
+      }
+      console.log(fmt_data);
+      setData(fmt_data);
+      setLoad(false);
     }
 
     fetchData();
-  },[state])
+  }, [state])
   {
-  if(load){
-    return(
-      <div style={{display:'flex', justifyContent:'center'}}>
-        <h1>Loading.....</h1>
-      </div>
-    );
-  }
-  else
-  {
-    if(err)
-    {
-      return(
-        <div style={{display:'flex', justifyContent:'center'}}>
-            <h4>Data not found</h4>
+    if (load) {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <h1>Loading.....</h1>
         </div>
       );
     }
-    else
-    {
-      return (
-        <>
-        <div style={{width:'auto', height:'auto', display:'flex', justifyContent:'center', backgroundColor:'#ededed'}}>
-          <Box style={{display:'flex', justifyContent:'center'}}>
+    else {
+      if (err) {
+        return (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <h4>Data not found</h4>
+          </div>
+        );
+      }
+      else {
+        return (
+          <>
+            <div style={{width: '100vw', height: 'auto',display: 'flex', justifyContent: 'center', backgroundColor: '#ededed' }}>
+              <Box style={{ display: 'flex', justifyContent: 'center' }}>
                 <Stack spacing={1} direction="row" useFlexGap flexWrap="wrap">
-                <Left func = {handleOnClick} data ={data}/>
-                <Stack spacing={10} direction="column" useFlexGap flexWrap="wrap" style={{marginTop:'30px'}}>
-                <RightTop data = {data}/>
-                <RightBelow q ={data}/>
+                  <Left func={handleOnClick} data={data} />
+                  <Stack spacing={10} direction="column" useFlexGap flexWrap="wrap" style={{ marginTop: '20px' }}>
+                    <RightTop data={data} />
+                    <RightBelow q={data} />
+                  </Stack>
                 </Stack>
-                </Stack>
-          </Box> 
-        </div>  
-        </>
-      );
+              </Box>
+            </div>
+          </>
+        );
+      }
     }
-}
-}
+  }
 }
 
 export default App;

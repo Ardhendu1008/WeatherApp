@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import BigCard from './BigCard';
 import SunCard from './SunCard';
+import UvCard from './UvCard';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,11 +19,11 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function MediaCard(props) {
   return (
-    <Box>
+    <Box style={{marginLeft: '30px'}}>
       <Typography variant='h6' style={{fontWeight:'bold'}}>Today</Typography>
       {props.q && <div>
           <Stack spacing={2} direction="row" useFlexGap flexWrap="wrap" style={{margin:'5px', marginBottom:'10px'}}>
-            <BigCard q ={props.q.current.uv} t ={"UV index"} u = {""}/>
+            <UvCard q ={props.q.current.uv} t ={"UV index"}/>
             <BigCard q ={props.q.current.wind_kph} t={"Wind Status"} u = {"km/h"}/>
             
             </Stack>

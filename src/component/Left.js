@@ -41,7 +41,7 @@ export default function RecipeReviewCard(props) {
   },[props.data]);
 
   return (
-    <Card sx={{ maxWidth: 500 }} style={{ margin: '40px', width: '300px', borderRadius: '10px' }}>
+    <Card sx={{ maxWidth: 500 }} style={{ margin: '30px', maxWidth: '300px', borderRadius: '10px' }}>
       {props.data && <div>{dayFind(props.data.forecast.forecastday[0].date)}
         <CardContent>
           <Stack spacing={15} direction="row">

@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function MediaCard(props) {
   return (
-    <Box>
+    <Box style={{marginLeft:'30px'}}>
       <Typography variant='h6' style={{marginTop:'10px', fontWeight:'bold'}}>3-Day</Typography>
           {props.data && <Stack spacing={2} direction="row" useFlexGap flexWrap="wrap">
             <Card q ={props.data.forecast.forecastday[0]}/>

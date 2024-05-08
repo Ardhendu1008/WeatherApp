@@ -69,7 +69,7 @@ function App() {
       else {
         return (
           <>
-            <div style={{width: '100vw', height: 'auto',display: 'flex', justifyContent: 'center', backgroundColor: '#ededed' }}>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
               <Box style={{ display: 'flex', justifyContent: 'center' }}>
                 <Stack spacing={1} direction="row" useFlexGap flexWrap="wrap">
                   <Left func={handleOnClick} data={data} />
